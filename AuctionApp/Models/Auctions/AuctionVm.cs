@@ -9,6 +9,7 @@ public class AuctionVm
     [ScaffoldColumn(false)]
     public int Id { get; set; }
     public string Title { get; set; }
+    public string Description { get; set; }
     
     // Talar om ifall nått speciellt ska gälla när man visar datat
     [Display(Name = "End Date")]
@@ -22,6 +23,7 @@ public class AuctionVm
         {
             Id = auction.Id,
             Title = auction.Title,
+            Description = auction.Description,
             EndDate = auction.EndDate,
             IsActive = auction.IsActive()
         };
