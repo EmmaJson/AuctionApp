@@ -19,7 +19,8 @@ namespace AuctionApp.Controllers
         // GET: AuctionsController
         public ActionResult Index()
         {
-            List<Auction> auctions = _auctionService.GetAllByUserName("dummy");
+            //List<Auction> auctions = _auctionService.GetAllByUserName("dummy");  TODO: Changed to GetAllActive;
+            List<Auction> auctions = _auctionService.GetAllActive();
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
             {

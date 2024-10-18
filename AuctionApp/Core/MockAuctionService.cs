@@ -7,7 +7,20 @@ public class MockAuctionService : IAuctionService
     public List<Auction> GetAllByUserName(string userName)
     {
         return _auctions;
-        ///TODO?
+        ///TODO: Probably not relevant?
+    }
+
+    public List<Auction> GetAllActive()
+    {
+        List<Auction> activeAuctions = new List<Auction>();
+        foreach (Auction auction in _auctions)
+        {
+            if (auction.IsActive())
+            {
+                activeAuctions.Add(auction);
+            }
+        }
+        return activeAuctions;
     }
 
     public Auction GetById(int id)
@@ -26,7 +39,7 @@ public class MockAuctionService : IAuctionService
     static MockAuctionService()
     {
         Auction a1 = new Auction(1, "Auction 1","Learn ASP: NET with MVC",DateTime.Today.AddDays(3),"emmajoh2@kth.se");
-        Auction a2 = new Auction(2, "Auction 2","Sleeping..",DateTime.Today.AddDays(-2), "emmajoh2@kth.se");
+        Auction a2 = new Auction(2, "Auction 2","Sleeping..",DateTime.Today.AddDays(-2), "emmajoh2@kth.se"); //Wont show since it is not active;
         a2.AddBid(new Bid(1, "emmajoh2@kth.se", 100));
         a2.AddBid(new Bid(1, "emmajoh2@kth.se", 150));
         _auctions.Add(a1);
