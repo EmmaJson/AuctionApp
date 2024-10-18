@@ -2,7 +2,7 @@
 
 public interface IAuctionService
 {
-    List<Auction> GetAllByUserName(string userName);
+    List<Auction> GetAllByUserName(string userName); //TODO: Is this necessary?
     
     List<Auction> GetAllActive();
     
