@@ -1,4 +1,5 @@
-﻿using AuctionApp.Core.Interfaces;
+﻿using System.Collections.ObjectModel;
+using AuctionApp.Core.Interfaces;
 
 namespace AuctionApp.Core;
 
@@ -20,6 +21,7 @@ public class MockAuctionService : IAuctionService
                 activeAuctions.Add(auction);
             }
         }
+        activeAuctions.Sort();
         return activeAuctions;
     }
 
@@ -38,11 +40,15 @@ public class MockAuctionService : IAuctionService
     // C# style static initializer
     static MockAuctionService()
     {
-        Auction a1 = new Auction(1, "Auction 1","Learn ASP: NET with MVC",DateTime.Today.AddDays(3),"emmajoh2@kth.se");
-        Auction a2 = new Auction(2, "Auction 2","Sleeping..",DateTime.Today.AddDays(-2), "emmajoh2@kth.se"); //Wont show since it is not active;
+        Auction a1 = new Auction(1, "Dog","Likes to eat pig ear",DateTime.Today.AddDays(5),"emmajoh2@kth.se");
+        Auction a2 = new Auction(2, "Cat","Likes to climbs on sofa",DateTime.Today.AddDays(2),"emmajoh2@kth.se");
+        Auction a3 = new Auction(3, "Lova","Likes to sleep and study",DateTime.Today.AddDays(3),"emmajoh2@kth.se");
+        Auction a4 = new Auction(4, "Ended Auction","Sleeping..",DateTime.Today.AddDays(-1), "emmajoh2@kth.se"); //Wont show since it is not active;
         a2.AddBid(new Bid(1, "emmajoh2@kth.se", 100));
         a2.AddBid(new Bid(1, "emmajoh2@kth.se", 150));
         _auctions.Add(a1);
         _auctions.Add(a2);
+        _auctions.Add(a3);
+        _auctions.Add(a4);
     }
 }

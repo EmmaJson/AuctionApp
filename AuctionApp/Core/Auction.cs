@@ -1,6 +1,6 @@
 ﻿namespace AuctionApp.Core;
 
-public class Auction
+public class Auction : IComparable<Auction>
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -37,14 +37,17 @@ public class Auction
 
     public bool IsActive()
     {
-        if (_bids.Count() == 0) return true;
-        return _bids.All(b => EndDate > DateTime.Now);
+        return EndDate > DateTime.Now;
     }
 
     public override string ToString()
     {
         return $"Id: {Id}: Title: {Title}, Description: {Description}, EndDate: {EndDate}";
     }
-    
-    
+
+
+    public int CompareTo(Auction other)
+    {
+        return this.EndDate.CompareTo(other.EndDate);
+    }
 }
