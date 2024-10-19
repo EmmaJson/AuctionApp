@@ -32,7 +32,15 @@ public class Auction : IComparable<Auction>
 
     public void AddBid(Bid newBid)
     {
+        if (_bids.Count != 0)
+        {
+            if (_bids.First().CompareTo(newBid) <= 0)
+            {
+                throw new NotImplementedException();
+            }
+        }
         _bids.Add(newBid);
+        _bids.Sort();
     }
 
     public bool IsActive()
