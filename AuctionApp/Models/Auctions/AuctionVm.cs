@@ -19,7 +19,7 @@ public class AuctionVm
     
     // Talar om ifall nått speciellt ska gälla när man visar datat
     [Display(Name = "End Date")]
-    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
     public DateTime EndDate { get; set; }
     [Display(Name = "Starting Price")]
     [DisplayFormat(DataFormatString = "{0:N2}")]
