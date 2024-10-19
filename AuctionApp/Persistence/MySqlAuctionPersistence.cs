@@ -17,7 +17,7 @@ public class MySqlAuctionPersistence : IAuctionPersistence
         _mapper = mapper;
     }
     
-    public List<Auction> GetAuctions()
+    public List<Auction> GetAllAuctions()
     {
         var auctionDbs = _dbContext.AuctionDbs
             .Where(a => a.EndDate > DateTime.Now)
