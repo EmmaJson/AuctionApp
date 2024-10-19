@@ -14,12 +14,12 @@ builder.Services.AddScoped<IAuctionService, MockAuctionService>();
 // ProjectsDb
 builder.Services.AddDbContext<AuctionDbContext>(
     options => options.UseMySQL(builder.Configuration.GetConnectionString("AuctionDbConnection")));
-/*
-// Dependency injection of persistance into sercvice
-builder.Services.AddScoped<IProjectPersistence, MySqlProjectPersistence>();
 
+// Dependency injection of persistance into sercvice
+builder.Services.AddScoped<IAuctionPersistence, MySqlAuctionPersistence>();
+/*
 // Identity
-builder.Services.AddDbContext<AppIdentityDbContext>(options => 
+builder.Services.AddDbContext<AppIdentityDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("IdentityDbConnection")));
 builder.Services.AddDefaultIdentity<AppIdentityUser>(
         options => options.SignIn.RequireConfirmedAccount = true)
