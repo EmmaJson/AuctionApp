@@ -68,10 +68,10 @@ public class MockAuctionService : IAuctionService
     // C# style static initializer
     static MockAuctionService()
     {
-        Auction a1 = new Auction(1, "Dog","Likes to eat pig ear",DateTime.Today.AddDays(5),"julg@kth.se", 100);
-        Auction a2 = new Auction(2, "Cat","Likes to climbs on sofa",DateTime.Today.AddDays(2),"julg@kth.se", 200);
-        Auction a3 = new Auction(3, "Lova","Likes to sleep and study",DateTime.Today.AddDays(3),"julg@kth.se", 300.50);
-        Auction a4 = new Auction(4, "Ended Auction","Sleeping..",DateTime.Today.AddDays(-1), "julg@kth.se", 400); //Wont show since it is not active;
+        Auction a1 = new Auction(1, "Dog","Likes to eat pig ear",DateTime.Today.AddDays(5).AddHours(14),"julg@kth.se", 100);
+        Auction a2 = new Auction(2, "Cat","Likes to climbs on sofa",DateTime.Today.AddDays(2).AddHours(14),"julg@kth.se", 200);
+        Auction a3 = new Auction(3, "Lova","Likes to sleep and study",DateTime.Today.AddDays(3).AddHours(14),"julg@kth.se", 300.50);
+        Auction a4 = new Auction(4, "Ended Auction","Sleeping..",DateTime.Today.AddDays(-1).AddHours(14), "julg@kth.se", 400); //Wont show since it is not active;
         //Auction a5 = new Auction("Vase", "emmajoh2@kth.se");
         a1.AddBid(new Bid(1, "emmajoh2@kth.se", 201));
         a2.AddBid(new Bid(2, "emmajoh2@kth.se", 16000));
