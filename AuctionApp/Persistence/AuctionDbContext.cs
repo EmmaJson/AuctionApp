@@ -18,6 +18,7 @@ public class AuctionDbContext : DbContext
             Description = "Sucks ass",
             EndDate = DateTime.Now.AddDays(5),
             AuctionOwnerName = "emmajoh2@kth.se",
+            StartingPrice = 100,
             BidDbs = new List<BidDb>()
         };
         modelBuilder.Entity<AuctionDb>().HasData(adb);
