@@ -8,7 +8,7 @@ public class Auction : IComparable<Auction>
     public DateTime EndDate { get; set; }
     public string UserName { get; set; }
     private List<Bid> _bids = new List<Bid>();
-    public IEnumerable<Bid> Bids { get; set; }
+    public IEnumerable<Bid> Bids => _bids;
     
     public Auction(string title, string userName)
     {

@@ -34,7 +34,8 @@ namespace AuctionApp.Controllers
             Auction auction = _auctionService.GetById(id);
             if (auction == null) return BadRequest();                   // HTTP 400
             
-            return View();
+            AuctionDetailsVm detailsVm = AuctionDetailsVm.FromAuction(auction);
+            return View(detailsVm);
         }
         /*
         // GET: AuctionsController/Create

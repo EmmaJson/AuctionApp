@@ -18,9 +18,9 @@ public class AuctionDetailsVm
 
     public List<BidVm> BidVMs { get; set; } = new();
 
-    public static AuctionDetailsVm FromProject(Auction auction)
+    public static AuctionDetailsVm FromAuction(Auction auction)
     {
-        var detailsVM = new AuctionDetailsVm()
+        var detailsVm = new AuctionDetailsVm()
         {
             Id = auction.Id,
             Title = auction.Title,
@@ -30,8 +30,8 @@ public class AuctionDetailsVm
         };
         foreach (var bid in auction.Bids)
         {
-            detailsVM.BidVMs.Add(BidVm.FromBid(bid));
+            detailsVm.BidVMs.Add(BidVm.FromBid(bid));
         }
-        return detailsVM;
+        return detailsVm;
     }
 }

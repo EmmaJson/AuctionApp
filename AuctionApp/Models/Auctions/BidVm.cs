@@ -12,7 +12,7 @@ public class BidVm
     
     // Talar om ifall nått speciellt ska gälla när man visar datat
     [Display(Name = "Bidded Amount")]
-    [DisplayFormat(DataFormatString = "{00:00:00.000}")]
+    [DisplayFormat(DataFormatString = "{0:N2}")]
     public double Amount { get; set; }
     
     [Display(Name = "Bid time")]
