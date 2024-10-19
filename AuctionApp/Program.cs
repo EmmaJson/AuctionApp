@@ -24,11 +24,11 @@ builder.Services.AddDbContext<AppIdentityDbContext>(options =>
 builder.Services.AddDefaultIdentity<AppIdentityUser>(
         options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AppIdentityDbContext>();
-
+*/
 
 // Auto mapping of data
 builder.Services.AddAutoMapper(typeof(Program));
-*/
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
