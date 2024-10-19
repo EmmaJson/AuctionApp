@@ -19,7 +19,6 @@ namespace AuctionApp.Controllers
         // GET: AuctionsController
         public ActionResult Index()
         {
-            //List<Auction> auctions = _auctionService.GetAllByUserName("dummy");  TODO: Changed to GetAllActive;
             List<Auction> auctions = _auctionService.GetAllActive();
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
@@ -27,16 +26,17 @@ namespace AuctionApp.Controllers
                 auctionsVms.Add(AuctionVm.FromAuction(auction));
             }
             return View(auctionsVms);
-            
-            
         }
-        /*
+        
         // GET: AuctionsController/Details/5
         public ActionResult Details(int id)
         {
+            Auction auction = _auctionService.GetById(id);
+            if (auction == null) return BadRequest();                   // HTTP 400
+            
             return View();
         }
-
+        /*
         // GET: AuctionsController/Create
         public ActionResult Create()
         {

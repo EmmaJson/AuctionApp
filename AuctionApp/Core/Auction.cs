@@ -40,14 +40,13 @@ public class Auction : IComparable<Auction>
         return EndDate > DateTime.Now;
     }
 
-    public override string ToString()
-    {
-        return $"Id: {Id}: Title: {Title}, Description: {Description}, EndDate: {EndDate}";
-    }
-
-
     public int CompareTo(Auction other)
     {
         return this.EndDate.CompareTo(other.EndDate);
+    }
+    
+    public override string ToString()
+    {
+        return $"Id: {Id}: Title: {Title}, Description: {Description}, EndDate: {EndDate}";
     }
 }

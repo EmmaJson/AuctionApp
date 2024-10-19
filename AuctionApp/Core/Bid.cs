@@ -1,5 +1,5 @@
 ﻿namespace AuctionApp.Core;
-public class Bid
+public class Bid : IComparable<Bid>
 {
     public int Id { get; set; }
     public string UserName { get; set; }
@@ -12,6 +12,17 @@ public class Bid
     {
         Id = id;
         UserName = userName;
+        Amount = amount;
         _bidDate = DateTime.Now;
+    }
+    
+    public int CompareTo(Bid other)
+    {
+        return -this.Amount.CompareTo(other.Amount);
+    }
+    
+    public override string ToString()
+    {
+        return $"Id: {Id}: UserName: {UserName}, Amount: {Amount}, BidDate: {BidDate}";
     }
 }
