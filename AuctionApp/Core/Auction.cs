@@ -48,7 +48,7 @@ public class Auction : IComparable<Auction>
         }
         if (_bids.Count != 0)
         {
-            if (newBid.CompareTo(_bids.First()) > 0)
+            if (newBid.CompareTo(_bids.First()) < 0)
             {
                 throw new NotImplementedException();
             }

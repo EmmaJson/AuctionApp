@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionApp.Migrations
 {
     [DbContext(typeof(AuctionDbContext))]
-    [Migration("20241019164244_Initial")]
+    [Migration("20241019195335_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -58,7 +58,7 @@ namespace AuctionApp.Migrations
                             Id = -1,
                             AuctionOwnerName = "emmajoh2@kth.se",
                             Description = "Sucks ass",
-                            EndDate = new DateTime(2024, 10, 24, 18, 42, 43, 600, DateTimeKind.Local).AddTicks(5548),
+                            EndDate = new DateTime(2024, 10, 24, 21, 53, 34, 447, DateTimeKind.Local).AddTicks(2157),
                             StartingPrice = 100.0,
                             Title = "Learn ASP.NET Core with MVC"
                         });
@@ -96,7 +96,7 @@ namespace AuctionApp.Migrations
                             Id = -1,
                             Amount = 200.0,
                             AuctionId = -1,
-                            BidDate = new DateTime(2024, 10, 19, 18, 42, 43, 600, DateTimeKind.Local).AddTicks(5772),
+                            BidDate = new DateTime(2024, 10, 19, 21, 53, 34, 447, DateTimeKind.Local).AddTicks(2343),
                             UserName = "julg@kth.se"
                         },
                         new
@@ -104,7 +104,7 @@ namespace AuctionApp.Migrations
                             Id = -2,
                             Amount = 250.0,
                             AuctionId = -1,
-                            BidDate = new DateTime(2024, 10, 19, 18, 42, 43, 600, DateTimeKind.Local).AddTicks(5775),
+                            BidDate = new DateTime(2024, 10, 19, 21, 53, 34, 447, DateTimeKind.Local).AddTicks(2346),
                             UserName = "julg@kth.se"
                         });
                 });
