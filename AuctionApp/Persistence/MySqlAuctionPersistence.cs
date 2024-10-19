@@ -77,7 +77,7 @@ public class MySqlAuctionPersistence : IAuctionPersistence
             .Include(a => a.BidDbs)
             .FirstOrDefault();   // Null if not found!
         
-        if (auctionDb == null) throw new DataException("Project not found");
+        if (auctionDb == null) throw new DataException("Auction not found");
         
         Auction auction = _mapper.Map<Auction>(auctionDb);
         foreach (BidDb bidDb in auctionDb.BidDbs)
