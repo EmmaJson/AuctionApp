@@ -1,5 +1,7 @@
 using AuctionApp.Core;
 using AuctionApp.Core.Interfaces;
+using AuctionApp.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,24 @@ builder.Services.AddControllersWithViews();
 // Dependency injection of persistance into sercvice
 builder.Services.AddScoped<IAuctionService, MockAuctionService>();
 
+// ProjectsDb
+builder.Services.AddDbContext<AuctionDbContext>(
+    options => options.UseMySQL(builder.Configuration.GetConnectionString("AuctionDbConnection")));
+/*
+// Dependency injection of persistance into sercvice
+builder.Services.AddScoped<IProjectPersistence, MySqlProjectPersistence>();
+
+// Identity
+builder.Services.AddDbContext<AppIdentityDbContext>(options => 
+    options.UseMySQL(builder.Configuration.GetConnectionString("IdentityDbConnection")));
+builder.Services.AddDefaultIdentity<AppIdentityUser>(
+        options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<AppIdentityDbContext>();
+
+
+// Auto mapping of data
+builder.Services.AddAutoMapper(typeof(Program));
+*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

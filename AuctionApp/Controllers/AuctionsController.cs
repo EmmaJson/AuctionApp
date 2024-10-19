@@ -20,6 +20,8 @@ namespace AuctionApp.Controllers
         public ActionResult Index()
         {
             List<Auction> auctions = _auctionService.GetAllActive();
+            //List<Auction> auctions = _auctionService.GetUserActiveAuctions("emmajoh2@kth.se");
+            //List<Auction> auctions = _auctionService.GetUserWonAuctions("lova@kth.se");
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
             {
