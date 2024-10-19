@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Dependency injection of persistance into sercvice
-builder.Services.AddScoped<IAuctionService, MockAuctionService>();
+builder.Services.AddScoped<IAuctionService, AuctionService>();
 
 // ProjectsDb
 builder.Services.AddDbContext<AuctionDbContext>(

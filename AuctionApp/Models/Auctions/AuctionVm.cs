@@ -18,12 +18,13 @@ public class AuctionVm
     public string Description { get; set; }
     
     // Talar om ifall nått speciellt ska gälla när man visar datat
-    [Display(Name = "End Date")]
+    [Display(Name = "Auction ends at")]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
     public DateTime EndDate { get; set; }
     [Display(Name = "Starting Price")]
     [DisplayFormat(DataFormatString = "{0:N2}")]
     public double StartingPrice { get; set; }
+    [Display(Name = "Active auction")]
     public bool IsActive { get; set; }
 
     public static AuctionVm FromAuction(Auction auction)
