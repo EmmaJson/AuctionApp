@@ -8,6 +8,7 @@ public class BidVm
     // Id:t ska skickas med i klienten, men inte listas i HTML-koden
     [ScaffoldColumn(false)]
     public int Id { get; set; }
+    [Display(Name = "Bidder")]
     public string UserName { get; set; }
     
     // Talar om ifall nått speciellt ska gälla när man visar datat
@@ -15,7 +16,7 @@ public class BidVm
     [DisplayFormat(DataFormatString = "{0:N2}")]
     public double Amount { get; set; }
     
-    [Display(Name = "Bid time")]
+    [Display(Name = "Bidded at")]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
     public DateTime BidDate { get ; set; }
 
