@@ -13,7 +13,7 @@ builder.Services.AddControllersWithViews();
 // Dependency injection of persistance into sercvice
 builder.Services.AddScoped<IAuctionService, AuctionService>();
 
-// ProjectsDb
+// AuctionsDb
 builder.Services.AddDbContext<AuctionDbContext>(
     options => options.UseMySQL(builder.Configuration.GetConnectionString("AuctionDbConnection")));
 
@@ -26,7 +26,6 @@ builder.Services.AddDbContext<AuctionIdentityDbContext>(options =>
 builder.Services.AddDefaultIdentity<AuctionIdentityUser>(
         options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<AuctionIdentityDbContext>();
-
 
 // Auto mapping of data
 builder.Services.AddAutoMapper(typeof(Program));
@@ -42,11 +41,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
