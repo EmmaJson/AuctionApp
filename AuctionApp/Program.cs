@@ -1,5 +1,7 @@
+using AuctionApp.Areas.Identity.Data;
 using AuctionApp.Core;
 using AuctionApp.Core.Interfaces;
+using AuctionApp.Data;
 using AuctionApp.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,14 +19,14 @@ builder.Services.AddDbContext<AuctionDbContext>(
 
 // Dependency injection of persistance into sercvice
 builder.Services.AddScoped<IAuctionPersistence, MySqlAuctionPersistence>();
-/*
+
 // Identity
-builder.Services.AddDbContext<AppIdentityDbContext>(options =>
+builder.Services.AddDbContext<AuctionIdentityDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("IdentityDbConnection")));
-builder.Services.AddDefaultIdentity<AppIdentityUser>(
+builder.Services.AddDefaultIdentity<AuctionIdentityUser>(
         options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AppIdentityDbContext>();
-*/
+    .AddEntityFrameworkStores<AuctionIdentityDbContext>();
+
 
 // Auto mapping of data
 builder.Services.AddAutoMapper(typeof(Program));
