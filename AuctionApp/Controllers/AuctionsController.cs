@@ -32,6 +32,7 @@ namespace AuctionApp.Controllers
         public ActionResult Pending()
         {
             List<Auction> auctions = _auctionService.GetUserActiveAuctions("julg@kth.se");
+            //List<Auction> auctions = _auctionService.GetUserActiveAuctions("emmajoh2@kth.se");
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
             {

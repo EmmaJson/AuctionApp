@@ -37,8 +37,15 @@ public class AuctionService : IAuctionService
         return auction;
     }
 
-    public void Add(string userName, string title)
+    public void Add(string title, string description, DateTime endDate, string auctionOwnerName, double startingPrice)
     {
-        throw new NotImplementedException();
+        if (title == null || title.Length > 128) throw new DataException("Title is required");
+        if (description == null || description.Length > 500) throw new DataException("Description is required");        //TODO: egen exception
+        if (endDate < DateTime.Now) throw new DataException("End date is required");
+        if (auctionOwnerName == null) throw new DataException("Auction owner name is required");
+        if (startingPrice < 0) throw new DataException("Starting price is required");
+        
+        Auction auction = new Auction(title, description, endDate, auctionOwnerName, startingPrice);
+        _auctionPersistence.Save(auction);
     }
 }

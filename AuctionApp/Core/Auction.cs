@@ -11,11 +11,13 @@ public class Auction : IComparable<Auction>
     private List<Bid> _bids = new List<Bid>();
     public IEnumerable<Bid> Bids => _bids;
     
-    public Auction(string title, string auctionOwnerName)
+    public Auction(string title, string description, DateTime endDate, string auctionOwnerName, double startingPrice)
     {
         Title = title;
-        EndDate = DateTime.Now.AddDays(7);
+        Description = description;
+        EndDate = endDate;
         AuctionOwnerName = auctionOwnerName;
+        StartingPrice = startingPrice;
     }
 
     public Auction(int id, string title, string description, DateTime endDate, string auctionOwnerName, double startingPrice)
@@ -41,7 +43,7 @@ public class Auction : IComparable<Auction>
         if (EndDate.CompareTo(DateTime.Now) <= 0)
         {
             throw new NotImplementedException();
-        }
+        } 
         if (_bids.Count == 0 && newBid.Amount <= StartingPrice)
         {
             throw new NotImplementedException();

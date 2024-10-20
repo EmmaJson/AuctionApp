@@ -57,8 +57,8 @@ public class MockAuctionService : IAuctionService
     {
         return _auctions.Find(a => a.Id == id && a.IsActive());      //Lambdauttryck i parantes
     }
-    
-    public void Add(string userName, string title)
+
+    public void Add(string title, string description, DateTime endDate, string auctionOwnerName, double startingPrice)
     {
         throw new NotImplementedException("MockProjectService.Add");
     }
@@ -76,7 +76,8 @@ public class MockAuctionService : IAuctionService
         a1.AddBid(new Bid(1, "emmajoh2@kth.se", 201));
         a2.AddBid(new Bid(2, "emmajoh2@kth.se", 16000));
         a3.AddBid(new Bid(3, "emmajoh2@kth.se", 100050.50));
-        
+        a4.AddBid(new Bid(3, "lova@kth.se", 1000050.50));
+
         _auctions.Add(a1);
         _auctions.Add(a2);
         _auctions.Add(a3);
