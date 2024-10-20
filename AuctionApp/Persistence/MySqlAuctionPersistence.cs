@@ -36,17 +36,14 @@ public class MySqlAuctionPersistence : IAuctionPersistence
     public List<Auction> GetUserWonAuctions(string userName)
     {
         var auctionDbs = _dbContext.AuctionDbs
-            .Where(a => a.EndDate <= DateTime.Now)
+            .Where(a => a.EndDate <= DateTime.Now && a.BidDbs.First().UserName.Equals(userName))
             .ToList();
         
         List<Auction> result = new List<Auction>();
         foreach (AuctionDb adb in auctionDbs)
         {
             Auction auction = _mapper.Map<Auction>(adb);
-            if (auction.Bids.First().UserName.Equals(userName))
-            {
-                result.Add(auction);
-            }
+            result.Add(auction);
         }
         result.Sort();
         return result;
@@ -55,16 +52,14 @@ public class MySqlAuctionPersistence : IAuctionPersistence
     public List<Auction> GetUserActiveAuctions(string userName)
     {
         var auctionDbs = _dbContext.AuctionDbs
-            .Where(a => a.EndDate > DateTime.Now)
+            .Where(a => a.EndDate > DateTime.Now && a.BidDbs.Any(b => b.UserName.Equals(userName)))
             .ToList();
         
         List<Auction> result = new List<Auction>();
         foreach (AuctionDb adb in auctionDbs)
         {
             Auction auction = _mapper.Map<Auction>(adb);
-            if (auction.Bids.Any(b => b.UserName == userName)) {
-                result.Add(auction);
-            }
+            result.Add(auction);
         }
         result.Sort();
         return result;

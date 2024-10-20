@@ -21,8 +21,28 @@ namespace AuctionApp.Controllers
         public ActionResult Index()
         {
             List<Auction> auctions = _auctionService.GetAllActive();
-            //List<Auction> auctions = _auctionService.GetUserActiveAuctions("emmajoh2@kth.se");
-            //List<Auction> auctions = _auctionService.GetUserWonAuctions("lova@kth.se");
+            List<AuctionVm> auctionsVms = new List<AuctionVm>();
+            foreach (Auction auction in auctions)
+            {
+                auctionsVms.Add(AuctionVm.FromAuction(auction));
+            }
+            return View(auctionsVms);
+        }
+        
+        public ActionResult Pending()
+        {
+            List<Auction> auctions = _auctionService.GetUserActiveAuctions("julg@kth.se");
+            List<AuctionVm> auctionsVms = new List<AuctionVm>();
+            foreach (Auction auction in auctions)
+            {
+                auctionsVms.Add(AuctionVm.FromAuction(auction));
+            }
+            return View(auctionsVms);
+        }
+        
+        public ActionResult Won()
+        {
+            List<Auction> auctions = _auctionService.GetUserWonAuctions("lova@kth.se");
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
             {
