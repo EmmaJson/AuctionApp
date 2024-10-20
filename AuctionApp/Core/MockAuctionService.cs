@@ -62,8 +62,13 @@ public class MockAuctionService : IAuctionService
     {
         throw new NotImplementedException("MockProjectService.Add");
     }
-    
-    public void AddBid(int accountId, string userName, double amount)
+
+    public void UpdateDescription(int auctionId, string auctionOwnerName, string description)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AddBid(int auctionId, string userName, double amount)
     {
         throw new NotImplementedException();
     }

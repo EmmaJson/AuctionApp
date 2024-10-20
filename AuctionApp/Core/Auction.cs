@@ -63,6 +63,11 @@ public class Auction : IComparable<Auction>
         _bids.Sort(); 
     }
 
+    public void UpdateDescription(string updatedDescription)
+    {
+        Description = updatedDescription;
+    }
+
     public bool IsActive()
     {
         return EndDate > DateTime.Now;

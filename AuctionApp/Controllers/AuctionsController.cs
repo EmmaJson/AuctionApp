@@ -133,6 +133,37 @@ namespace AuctionApp.Controllers
                 return View(createBidVm);
             }
         }
+        
+        // GET: AuctionsController/Description/5
+        public ActionResult CreateDescription(int id)
+        {
+            ViewBag.AuctionId = id; // Set the auction ID for the view
+            return View();
+        }
+        
+        // POST: AuctionsController/Description/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateDescription(CreateDescriptionVm createDescriptionVm, int id)
+        {
+            try
+            {
+                string userName = "emmajoh2@kth.se";                                       // Assuming user is authenticated
+                if (ModelState.IsValid)
+                {
+                    // Attempt to add the bid
+                    ViewBag.AuctionId = id; // Set the auction ID for the view
+                    _auctionService.UpdateDescription(id, userName, createDescriptionVm.Description);
+                    return RedirectToAction("Details", new { id = id });
+                }
+                return View(createDescriptionVm); // Return view with validation errors if any
+            }
+            catch (DataException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(createDescriptionVm);
+            }
+        }
 
         
 /*

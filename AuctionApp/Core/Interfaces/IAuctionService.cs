@@ -11,7 +11,9 @@ public interface IAuctionService
     Auction GetById(int id); 
     
     void Add(string title, string description, DateTime endDate, string auctionOwnerName, double startingPrice);
-    //void Update(Auction auction, string auctionOwnerName);
+    
+    void UpdateDescription(int auctionId, string userName, string desription);
 
-    void AddBid(int accountId ,string userName, double amount);
+    void AddBid(int auctionId ,string userName, double amount);
+    
 }
