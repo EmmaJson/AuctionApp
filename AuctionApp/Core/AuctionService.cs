@@ -67,7 +67,7 @@ public class AuctionService : IAuctionService
             // Save the auction with the new bid
             _auctionPersistence.Save(auction);
         }
-        throw new InvalidOperationException("Only owner can change the description");
+        else throw new InvalidOperationException("Only owner can change the description");
     }
     
     public void AddBid(int auctionId, string userName, double amount)
