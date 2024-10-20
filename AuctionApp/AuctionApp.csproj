@@ -19,4 +19,13 @@
       <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.8" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Views\Auctions\Index.cshtml.css">
+        <DependentUpon>Index.cshtml.cshtml</DependentUpon>
+      </None>
+      <None Update="Views\Auctions\Pending.css">
+        <DependentUpon>Pending.cshtml</DependentUpon>
+      </None>
+    </ItemGroup>
+
 </Project>
