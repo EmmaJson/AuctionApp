@@ -58,7 +58,7 @@ namespace AuctionApp.Controllers
             try
             {
                 Auction auction = _auctionService.GetById(id);
-                if (auction == null) return BadRequest();                   // HTTP 400
+                if (auction == null) return BadRequest();                           // HTTP 400
             
                 AuctionDetailsVm detailsVm = AuctionDetailsVm.FromAuction(auction); // TODO: Här kan en mapper användas tydligen
                 return View(detailsVm);
@@ -68,28 +68,29 @@ namespace AuctionApp.Controllers
                 return BadRequest(); 
             }
         }
-        /*
+
         // GET: AuctionsController/Create
         public ActionResult Create()
         {
             return View();
         }
-
+        
         // POST: AuctionsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CreateAuctionVm createAuctionVm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                return View(createAuctionVm);
             }
-            catch
+            catch (DataException ex)
             {
-                return View();
+                return View(createAuctionVm);
             }
         }
-
+        
+/*
         // GET: AuctionsController/Edit/5
         public ActionResult Edit(int id)
         {
