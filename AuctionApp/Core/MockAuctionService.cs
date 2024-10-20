@@ -63,6 +63,11 @@ public class MockAuctionService : IAuctionService
         throw new NotImplementedException("MockProjectService.Add");
     }
     
+    public void AddBid(int accountId, string userName, double amount)
+    {
+        throw new NotImplementedException();
+    }
+
     private static readonly List<Auction> _auctions = new();
     
     // C# style static initializer

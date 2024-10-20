@@ -67,12 +67,17 @@ public class MySqlAuctionPersistence : IAuctionPersistence
     
     public Auction GetById(int id)
     {
+        Console.WriteLine($"Searching for auction with ID: {id}");
         AuctionDb auctionDb = _dbContext.AuctionDbs
             .Where(a => a.Id == id)
             .Include(a => a.BidDbs)
             .FirstOrDefault();   // Null if not found!
         
-        if (auctionDb == null) throw new DataException("Auction not found");
+        if (auctionDb == null)
+        {
+            Console.WriteLine("Auction not found in the database."); // Log if not found
+            throw new DataException("Auction not found");
+        }
         
         Auction auction = _mapper.Map<Auction>(auctionDb);
         foreach (BidDb bidDb in auctionDb.BidDbs)
@@ -86,7 +91,35 @@ public class MySqlAuctionPersistence : IAuctionPersistence
     public void Save(Auction auction)
     {
         AuctionDb adb = _mapper.Map<AuctionDb>(auction);
-        _dbContext.AuctionDbs.Add(adb);
+    
+        var existingAuction = _dbContext.AuctionDbs
+            .Include(a => a.BidDbs)
+            .FirstOrDefault(a => a.Id == adb.Id);
+
+        if (existingAuction != null)
+        {
+            // Update existing auction properties
+            _dbContext.Entry(existingAuction).CurrentValues.SetValues(adb);
+
+            // Check for new bids
+            foreach (var bid in auction.Bids)
+            {
+                // Create a new BidDb instance to avoid tracking issues
+                var existingBid = existingAuction.BidDbs.FirstOrDefault(b => b.UserName == bid.UserName && b.Amount == bid.Amount);
+
+                if (existingBid == null) // Only add if the bid doesn't already exist
+                {
+                    var bidDb = _mapper.Map<BidDb>(bid);
+                    existingAuction.BidDbs.Add(bidDb);
+                }
+            }
+        }
+        else
+        {
+            // If the auction doesn't exist, add it along with bids
+            _dbContext.AuctionDbs.Add(adb);
+        }
+
         _dbContext.SaveChanges();
     }
 }

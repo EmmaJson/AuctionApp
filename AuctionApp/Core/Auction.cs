@@ -38,25 +38,29 @@ public class Auction : IComparable<Auction>
     {
         if (AuctionOwnerName == newBid.UserName)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Auction owners cannot bid on their own auction.");
         }
+    
         if (EndDate.CompareTo(DateTime.Now) <= 0)
         {
-            throw new NotImplementedException();
-        } 
+            throw new InvalidOperationException("Cannot place a bid on an auction that has already ended.");
+        }
+    
         if (_bids.Count == 0 && newBid.Amount <= StartingPrice)
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("The bid amount must be greater than the starting price.");
         }
+    
         if (_bids.Count != 0)
         {
-            if (newBid.CompareTo(_bids.First()) < 0)
+            // Assuming _bids is sorted in descending order (highest bid first)
+            if (newBid.Amount <= _bids.Max(b => b.Amount))
             {
-                throw new NotImplementedException();
+                throw new InvalidOperationException("The bid amount must be greater than the current highest bid.");
             }
         }
         _bids.Add(newBid);
-        _bids.Sort();
+        _bids.Sort(); 
     }
 
     public bool IsActive()

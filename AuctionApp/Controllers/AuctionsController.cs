@@ -70,7 +70,7 @@ namespace AuctionApp.Controllers
         }
 
         // GET: AuctionsController/Create
-        public ActionResult Create()
+        public ActionResult CreateAuction()
         {
             return View();
         }
@@ -78,17 +78,62 @@ namespace AuctionApp.Controllers
         // POST: AuctionsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateAuctionVm createAuctionVm)
+        public ActionResult CreateAuction(CreateAuctionVm createAuctionVm)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    string title = createAuctionVm.Title;
+                    string description = createAuctionVm.Description;
+                    DateTime endDate = createAuctionVm.EndDate;
+                    double startingPrice = createAuctionVm.StartingPrice;
+                    string auctionOwnerName = "emmajoh2@kth.se";                    // Dummy user
+                    
+                    _auctionService.Add(title, description, endDate, auctionOwnerName, startingPrice);
+                    return RedirectToAction("Index");                               // Man kommer till indexSidan 
+                }
                 return View(createAuctionVm);
             }
             catch (DataException ex)
             {
-                return View(createAuctionVm);
+                return View(createAuctionVm);                   // TODO: Kanske skicka med vilket fel använvdren gjort
             }
         }
+        
+        // GET: AuctionsController/CreateBid/5
+        public ActionResult CreateBid(int id)
+        {
+            ViewBag.AuctionId = id; // Set the auction ID for the view
+            return View();
+        }
+        
+        // POST: AuctionsController/Create/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateBid(CreateBidVm createBidVm, int id)
+        {
+            try
+            {
+                double amount = createBidVm.Amount;
+                string userName = "lovat@kth.se"; // Assuming user is authenticated
+                Console.WriteLine($"Creating bid for auction ID: {id} by user: {userName} with amount: {amount}");
+                if (ModelState.IsValid)
+                {
+                    // Attempt to add the bid
+                    ViewBag.AuctionId = id; // Set the auction ID for the view
+                    _auctionService.AddBid(id, userName, amount);
+                    return RedirectToAction("Details", new { id = id });
+                }
+                return View(createBidVm); // Return view with validation errors if any
+            }
+            catch (DataException ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(createBidVm);
+            }
+        }
+
         
 /*
         // GET: AuctionsController/Edit/5

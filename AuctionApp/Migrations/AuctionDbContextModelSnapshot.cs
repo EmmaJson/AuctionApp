@@ -52,10 +52,10 @@ namespace AuctionApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             AuctionOwnerName = "emmajoh2@kth.se",
                             Description = "Sucks ass",
-                            EndDate = new DateTime(2024, 10, 24, 21, 53, 34, 447, DateTimeKind.Local).AddTicks(2157),
+                            EndDate = new DateTime(2024, 10, 25, 16, 23, 56, 52, DateTimeKind.Local).AddTicks(519),
                             StartingPrice = 100.0,
                             Title = "Learn ASP.NET Core with MVC"
                         });
@@ -90,18 +90,18 @@ namespace AuctionApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = 1,
                             Amount = 200.0,
-                            AuctionId = -1,
-                            BidDate = new DateTime(2024, 10, 19, 21, 53, 34, 447, DateTimeKind.Local).AddTicks(2343),
+                            AuctionId = 1,
+                            BidDate = new DateTime(2024, 10, 20, 16, 23, 56, 52, DateTimeKind.Local).AddTicks(813),
                             UserName = "julg@kth.se"
                         },
                         new
                         {
-                            Id = -2,
+                            Id = 2,
                             Amount = 250.0,
-                            AuctionId = -1,
-                            BidDate = new DateTime(2024, 10, 19, 21, 53, 34, 447, DateTimeKind.Local).AddTicks(2346),
+                            AuctionId = 1,
+                            BidDate = new DateTime(2024, 10, 20, 16, 23, 56, 52, DateTimeKind.Local).AddTicks(819),
                             UserName = "julg@kth.se"
                         });
                 });

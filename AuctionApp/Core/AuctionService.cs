@@ -48,4 +48,32 @@ public class AuctionService : IAuctionService
         Auction auction = new Auction(title, description, endDate, auctionOwnerName, startingPrice);
         _auctionPersistence.Save(auction);
     }
+
+    public void AddBid(int auctionId, string userName, double amount)
+    {
+        Console.WriteLine($"Attempting to add bid for auction ID: {auctionId}, amount: {amount}, by user: {userName}");
+        if (string.IsNullOrWhiteSpace(userName)) 
+            throw new DataException("Username is required");
+
+        // Retrieve the auction by ID
+        Auction auction = _auctionPersistence.GetById(auctionId);
+        if (auction == null) 
+            throw new DataException("Auction not found");
+
+        // Log the current highest bid for debugging
+        if (auction.Bids.Any())
+        {
+            double currentHighestBid = auction.Bids.Max(b => b.Amount);
+            Console.WriteLine($"Current highest bid: {currentHighestBid}");
+            if (amount <= currentHighestBid)
+                throw new InvalidOperationException("The bid amount must be greater than the current highest bid.");
+        }
+
+        // Create and add the new bid
+        Bid bid = new Bid(userName, amount);
+        auction.AddBid(bid);
+
+        // Save the auction with the new bid
+        _auctionPersistence.Save(auction);
+    }
 }

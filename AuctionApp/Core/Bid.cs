@@ -7,6 +7,13 @@ public class Bid : IComparable<Bid>
     
     private DateTime _bidDate;
     public DateTime BidDate { get => _bidDate; }
+    
+    public Bid(string userName, double amount)
+    {
+        UserName = userName;
+        Amount = amount;
+        _bidDate = DateTime.Now;
+    }
 
     public Bid(int id, string userName, double amount)
     {
