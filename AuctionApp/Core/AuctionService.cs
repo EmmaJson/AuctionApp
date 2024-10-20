@@ -54,16 +54,20 @@ public class AuctionService : IAuctionService
         Console.WriteLine($"Attempting to add bid for auction ID: {auctionId}, by user: {userName}");
         if (string.IsNullOrWhiteSpace(userName)) 
             throw new DataException("Username is required");
-
         // Retrieve the auction by ID
         Auction auction = _auctionPersistence.GetById(auctionId);
         if (auction == null) 
             throw new DataException("Auction not found");
-        // Set description
-        auction.UpdateDescription(description);
+
+        if (auction.AuctionOwnerName.Equals(userName))
+        {
+            // Set description
+            auction.UpdateDescription(description);
         
-        // Save the auction with the new bid
-        _auctionPersistence.Save(auction);
+            // Save the auction with the new bid
+            _auctionPersistence.Save(auction);
+        }
+        throw new InvalidOperationException("Only owner can change the description");
     }
     
     public void AddBid(int auctionId, string userName, double amount)
@@ -82,8 +86,6 @@ public class AuctionService : IAuctionService
         {
             double currentHighestBid = auction.Bids.Max(b => b.Amount);
             Console.WriteLine($"Current highest bid: {currentHighestBid}");
-            if (amount <= currentHighestBid)
-                throw new InvalidOperationException("The bid amount must be greater than the current highest bid.");
         }
 
         // Create and add the new bid

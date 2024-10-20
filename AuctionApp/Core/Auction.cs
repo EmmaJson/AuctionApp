@@ -1,4 +1,6 @@
-﻿namespace AuctionApp.Core;
+﻿using AuctionApp.Core.Exceptions;
+
+namespace AuctionApp.Core;
 
 public class Auction : IComparable<Auction>
 {
@@ -38,17 +40,17 @@ public class Auction : IComparable<Auction>
     {
         if (AuctionOwnerName == newBid.UserName)
         {
-            throw new InvalidOperationException("Auction owners cannot bid on their own auction.");
+            throw new AddBidToOwnAuctionException();
         }
     
         if (EndDate.CompareTo(DateTime.Now) <= 0)
         {
-            throw new InvalidOperationException("Cannot place a bid on an auction that has already ended.");
+            throw new AuctionOutdatedException();
         }
     
         if (_bids.Count == 0 && newBid.Amount <= StartingPrice)
         {
-            throw new InvalidOperationException("The bid amount must be greater than the starting price.");
+            throw new ToLowBidException("The bid amount must be greater than the starting price.");
         }
     
         if (_bids.Count != 0)
@@ -56,7 +58,7 @@ public class Auction : IComparable<Auction>
             // Assuming _bids is sorted in descending order (highest bid first)
             if (newBid.Amount <= _bids.Max(b => b.Amount))
             {
-                throw new InvalidOperationException("The bid amount must be greater than the current highest bid.");
+                throw new ToLowBidException("The bid amount must be greater than the current highest bid.");
             }
         }
         _bids.Add(newBid);

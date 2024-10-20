@@ -6,6 +6,26 @@
 
 <h1>Index</h1>
 
+@{
+ViewData["Title"] = "Details";
+}
+
+<h1>Auction</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert alert-success">
+    @TempData["SuccessMessage"]
+</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-danger">
+    @TempData["ErrorMessage"]
+</div>
+}
+
 <p>
     <a asp-action="CreateAuction">Create New</a>
 </p>

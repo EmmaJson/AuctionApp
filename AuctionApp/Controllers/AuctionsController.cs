@@ -1,5 +1,6 @@
 using System.Data;
 using AuctionApp.Core;
+using AuctionApp.Core.Exceptions;
 using AuctionApp.Core.Interfaces;
 using AuctionApp.Models.Auctions;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionApp.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class AuctionsController : Controller
     {
         private IAuctionService _auctionService;
@@ -31,7 +32,7 @@ namespace AuctionApp.Controllers
         
         public ActionResult Pending()
         {
-            List<Auction> auctions = _auctionService.GetUserActiveAuctions("julg@kth.se");
+            List<Auction> auctions = _auctionService.GetUserActiveAuctions(User.Identity.Name);
             //List<Auction> auctions = _auctionService.GetUserActiveAuctions("emmajoh2@kth.se");
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
@@ -43,7 +44,7 @@ namespace AuctionApp.Controllers
         
         public ActionResult Won()
         {
-            List<Auction> auctions = _auctionService.GetUserWonAuctions("lova@kth.se");
+            List<Auction> auctions = _auctionService.GetUserWonAuctions(User.Identity.Name);
             List<AuctionVm> auctionsVms = new List<AuctionVm>();
             foreach (Auction auction in auctions)
             {
@@ -69,13 +70,13 @@ namespace AuctionApp.Controllers
             }
         }
 
-        // GET: AuctionsController/Create
+        // GET: AuctionsController/CreateAuction
         public ActionResult CreateAuction()
         {
             return View();
         }
         
-        // POST: AuctionsController/Create
+        // POST: AuctionsController/CreateAuction
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateAuction(CreateAuctionVm createAuctionVm)
@@ -88,16 +89,18 @@ namespace AuctionApp.Controllers
                     string description = createAuctionVm.Description;
                     DateTime endDate = createAuctionVm.EndDate;
                     double startingPrice = createAuctionVm.StartingPrice;
-                    string auctionOwnerName = "emmajoh2@kth.se";                    // Dummy user
+                    string auctionOwnerName = User.Identity.Name;                    // Dummy user
                     
                     _auctionService.Add(title, description, endDate, auctionOwnerName, startingPrice);
+                    TempData["Success"] = "Auction was created";
                     return RedirectToAction("Index");                               // Man kommer till indexSidan 
                 }
                 return View(createAuctionVm);
             }
             catch (DataException ex)
             {
-                return View(createAuctionVm);                   // TODO: Kanske skicka med vilket fel använvdren gjort
+                TempData["ErrorMessage"] = "A problem occured while creating an auction. Please try again.";
+                return RedirectToAction("Index");           
             }
         }
         
@@ -116,21 +119,48 @@ namespace AuctionApp.Controllers
             try
             {
                 double amount = createBidVm.Amount;
-                string userName = "lovat@kth.se"; // Assuming user is authenticated
+                string userName = User.Identity.Name; // Assuming user is authenticated
                 Console.WriteLine($"Creating bid for auction ID: {id} by user: {userName} with amount: {amount}");
                 if (ModelState.IsValid)
                 {
                     // Attempt to add the bid
                     ViewBag.AuctionId = id; // Set the auction ID for the view
                     _auctionService.AddBid(id, userName, amount);
-                    return RedirectToAction("Details", new { id = id });
+                    TempData["Success"] = "Bid was created";
                 }
-                return View(createBidVm); // Return view with validation errors if any
+                return RedirectToAction("Details", new { id = id });
+            }
+            catch (AuctionOutdatedException ex)
+            {
+                TempData["ErrorMessage"] = "You cant place a bid on a closed auction."; // Store the error message
+                return RedirectToAction("Details", new { id });
+            }
+            catch (AddBidToOwnAuctionException ex)
+            {
+                TempData["ErrorMessage"] = "You can not bid on your own auction."; // Store the error message
+                return RedirectToAction("Details", new { id });
+            }
+            catch (ToLowBidException ex)
+            {
+                TempData["ErrorMessage"] = "Your bid does not exceed current price"; // Store the error message
+                return RedirectToAction("Details", new { id });
+            }
+            catch (InvalidOperationException ex)
+            {
+                TempData["ErrorMessage"] =
+                    "An invalid operation occurred. Please try again later."; // General error message
+                return RedirectToAction("Details", new { id });
             }
             catch (DataException ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View(createBidVm);
+                TempData["ErrorMessage"] = "There was a problem with the data. Please try again."; // Data error message
+                return RedirectToAction("Details", new { id });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] =
+                    "An unexpected error occurred. Please try again later."; // Generic error message
+                return RedirectToAction("Details", new { id });
             }
         }
         
@@ -148,66 +178,27 @@ namespace AuctionApp.Controllers
         {
             try
             {
-                string userName = "emmajoh2@kth.se";                                       // Assuming user is authenticated
+                string userName = User.Identity.Name;
                 if (ModelState.IsValid)
                 {
                     // Attempt to add the bid
                     ViewBag.AuctionId = id; // Set the auction ID for the view
                     _auctionService.UpdateDescription(id, userName, createDescriptionVm.Description);
-                    return RedirectToAction("Details", new { id = id });
+                    TempData["Success"] = "Auction description updated";
+                    return RedirectToAction("Index"); 
                 }
                 return View(createDescriptionVm); // Return view with validation errors if any
             }
+            catch (InvalidOperationException ex)
+            {
+                TempData["ErrorMessage"] = "Only owner can change the description.";
+                return RedirectToAction("Index"); 
+            }
             catch (DataException ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View(createDescriptionVm);
+                TempData["ErrorMessage"] = "A problem occured while editing the description. Please try again.";
+                return RedirectToAction("Index"); 
             }
         }
-
-        
-/*
-        // GET: AuctionsController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AuctionsController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: AuctionsController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: AuctionsController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        */
     }
 }
