@@ -38,16 +38,6 @@ public class Auction : IComparable<Auction>
 
     public void AddBid(Bid newBid)
     {
-        if (AuctionOwnerName == newBid.UserName)
-        {
-            throw new AddBidToOwnAuctionException();
-        }
-    
-        if (EndDate.CompareTo(DateTime.Now) <= 0)
-        {
-            throw new AuctionOutdatedException();
-        }
-    
         if (_bids.Count == 0 && newBid.Amount <= StartingPrice)
         {
             throw new ToLowBidException("The bid amount must be greater than the starting price.");

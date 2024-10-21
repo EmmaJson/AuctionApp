@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Auction</h1>
+<h1>Auction Details</h1>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -20,12 +20,9 @@
 </div>
 }
 
-<p>
-    <a asp-action="CreateBid" asp-route-id="@Model.Id">Bid on this item</a>
-</p>
+<a href="@Url.Action("CreateBid", "Auctions")" class="btn btn-success">Create New</a>
 
 <div>
-    <h4>Auction Details</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -111,6 +108,8 @@
 
 
 <div>
-    @Html.ActionLink("Edit", "CreateDescription", new {id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a href="@Url.Action("CreateDescription", "Auctions", new { id = Model.Id })" class="btn btn-primary">
+        Edit description
+    </a>
+    <a href="@Url.Action("Index", "Auctions")" class="btn btn-success">Back to all auctions</a>
 </div>

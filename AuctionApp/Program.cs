@@ -40,6 +40,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStaticFiles(); // Make sure this is called
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();

@@ -1,63 +1,111 @@
 @model IEnumerable<AuctionApp.Models.Auctions.AuctionVm>
 
 @{
-    ViewData["Title"] = "Pending";
+ViewData["Title"] = "Pending Auctions";
 }
 
 <h1>Pending Auctions</h1>
 
-<p>
-    <a asp-action="CreateAuction">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartingPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartingPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-primary custom-button" })
-            </td>
-        </tr>
+@if (TempData["SuccessMessage"] != null)
+{
+<div class="alert alert-success">
+    @TempData["SuccessMessage"]
+</div>
 }
-    </tbody>
-</table>
+
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-danger">
+    @TempData["ErrorMessage"]
+</div>
+}
+
+<a href="@Url.Action("CreateAuction", "Auctions")" class="cool-button">Create New</a>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Auction Item</th>
+            <th>Item Description</th>
+            <th style="width: 15%;">Starting Price</th> <!-- Adjust width here -->
+            <th style="width: 15%;">Auction Owner</th> <!-- Adjust width here -->
+            <th style="width: 15%;">Auction Ends At</th> <!-- Adjust width here -->
+        </tr>
+        </thead>
+        <tbody>
+        @if (!Model.Any())
+        {
+        <tr>
+            <td colspan="5" class="text-center">No auctions available.</td>
+        </tr>
+        }
+        else
+        {
+        @foreach (var item in Model)
+        {
+        <tr class="clickable-row" onclick="location.href='@Url.Action("Details", "Auctions", new { id = item.Id })'">
+            <td>@item.Title</td>
+            <td>@item.Description</td>
+            <td style="width: 10%;">@item.StartingPrice.ToString("C")</td> <!-- Format as currency -->
+            <td>@item.UserName</td>
+            <td style="width: 15%;">@item.EndDate.ToString("g")</td> <!-- General date format -->
+        </tr>
+        }
+        }
+        </tbody>
+    </table>
+</div>
+
+
+<head>
+    <style>
+        .cool-button {
+            color: #fff;
+            background-color: #b30000;
+            border: 2px solid #b30000;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cool-button:hover {
+            color: #fff;
+            background-color: #5a0303;
+            transform: scale(1.02);
+        }
+
+        .table {
+            width: 100%; /* Full-width table */
+            table-layout: fixed; /* Optional: This can be used to evenly distribute the columns */
+            border-collapse: collapse; /* Merge borders */
+            padding: 15px; /* Add padding for better spacing */
+            text-align: left; /* Align text to the left */
+            border-bottom: 1px solid #c8c8c8; /* Add a bottom border */
+            background-color: #ffffff; /* Light gray background for headers */
+            color: #333; /* Dark text for headers */
+            font-weight: bold; /* Make headers bold */
+        }
+
+        .table-responsive {
+            overflow-x: auto;  /* Allows horizontal scrolling if the table overflows */
+            width: 100%;       /* Ensures the table doesn't go outside the container */
+        }
+
+        .clickable-row {
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth background transition */
+        }
+
+        /* Hover effect for clickable rows */
+        .clickable-row:hover {
+            background-color: rgba(252, 22, 22, 0.57); /* Darker blue on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+    </style>
+</head>

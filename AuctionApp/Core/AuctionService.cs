@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using AuctionApp.Core.Exceptions;
 using AuctionApp.Core.Interfaces;
 
 namespace AuctionApp.Core;
@@ -87,7 +88,14 @@ public class AuctionService : IAuctionService
             double currentHighestBid = auction.Bids.Max(b => b.Amount);
             Console.WriteLine($"Current highest bid: {currentHighestBid}");
         }
-
+        if (auction.AuctionOwnerName.Equals(userName))
+        {
+            throw new AddBidToOwnAuctionException();
+        }
+        if (auction.EndDate.CompareTo(DateTime.Now) <= 0)
+        {
+            throw new AuctionOutdatedException();
+        }
         // Create and add the new bid
         Bid bid = new Bid(userName, amount);
         auction.AddBid(bid);
