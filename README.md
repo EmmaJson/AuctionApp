@@ -1,5 +1,5 @@
 ﻿# AuctionApp
-An application that allows users to participate in ongoning auctions. Users can register, log in, browse active auctions, and place bids on listed items. The app provides a dynamic and responsive user experience, supported by a solid C# backend.
+An application that allows users to participate in ongoning auctions. Users can register, log in, browse active auctions, and place bids on listed items. The app provides a dynamic and responsive user experience.
 
 ### Features
 User Authentication: Sign-up, login, and account management.
