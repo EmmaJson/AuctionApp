@@ -20,7 +20,9 @@
 </div>
 }
 
-<a href="@Url.Action("CreateBid", "Auctions")" class="btn btn-success">Create New</a>
+<a href="@Url.Action("CreateBid", "Auctions", new { id = Model.Id })" class="cool-button">
+    Bid on this item
+</a>
 
 <div>
     <hr />
@@ -70,7 +72,7 @@
 
 
 <p/>
-<div>
+<div class="table-responsive"> 
     <h4>Bids</h4>
     <table class="table">
         <thead>
@@ -108,8 +110,62 @@
 
 
 <div>
-    <a href="@Url.Action("CreateDescription", "Auctions", new { id = Model.Id })" class="btn btn-primary">
+    <a href="@Url.Action("CreateDescription", "Auctions", new { id = Model.Id })" class="cool-button">
         Edit description
     </a>
-    <a href="@Url.Action("Index", "Auctions")" class="btn btn-success">Back to all auctions</a>
+    <a href="@Url.Action("Index", "Auctions")" class="cool-button">Back to all auctions</a>
 </div>
+
+
+
+<head>
+    <style>
+        .cool-button {
+            color: #fff;
+            background-color: #b30000;
+            border: 2px solid #b30000;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cool-button:hover {
+            color: #fff;
+            background-color: #5a0303;
+            transform: scale(1.02);
+        }
+
+        .table {
+            width: 100%; /* Full-width table */
+            table-layout: fixed; /* Optional: This can be used to evenly distribute the columns */
+            border-collapse: collapse; /* Merge borders */
+            padding: 15px; /* Add padding for better spacing */
+            text-align: left; /* Align text to the left */
+            border-bottom: 1px solid #c8c8c8; /* Add a bottom border */
+            background-color: #ffffff; /* Light gray background for headers */
+            color: #333; /* Dark text for headers */
+            font-weight: bold; /* Make headers bold */
+        }
+
+        .table-responsive {
+            overflow-x: auto;  /* Allows horizontal scrolling if the table overflows */
+            width: 100%;       /* Ensures the table doesn't go outside the container */
+        }
+
+        .clickable-row {
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth background transition */
+        }
+
+        /* Hover effect for clickable rows */
+        .clickable-row:hover {
+            background-color: rgba(252, 22, 22, 0.57); /* Darker blue on hover */
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+    </style>
+</head>
