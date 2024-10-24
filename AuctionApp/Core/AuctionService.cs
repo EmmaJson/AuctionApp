@@ -35,6 +35,12 @@ public class AuctionService : IAuctionService
     {
         Auction auction = _auctionPersistence.GetById(id);
         if (auction == null) throw new DataException("Auction not found");
+        /*Console.WriteLine("Time garthered: " );
+        foreach (var Bid in auction.Bids)
+        {
+            Console.WriteLine(Bid.BidDate);
+        }*/
+            
         return auction;
     }
 

@@ -10,4 +10,5 @@ public class AuctionProfile : Profile
     {
         CreateMap<AuctionDb, Auction>().ReverseMap();
     }
+    
 }

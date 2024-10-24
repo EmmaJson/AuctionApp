@@ -14,6 +14,14 @@ public class Bid : IComparable<Bid>
         Amount = amount;
         _bidDate = DateTime.Now;
     }
+    
+    public Bid(string userName, double amount, DateTime bidDate)
+    {
+            UserName = userName;
+            Amount = amount;
+            _bidDate = bidDate; // Säkerställ att tidsstämpeln sätts
+    }
+
 
     public Bid(int id, string userName, double amount)
     {

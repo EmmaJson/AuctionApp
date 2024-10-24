@@ -59,6 +59,11 @@ namespace AuctionApp.Controllers
             try
             {
                 Auction auction = _auctionService.GetById(id);
+                /*foreach (var Bid in auction.Bids)
+                {
+                    Console.WriteLine(Bid.BidDate);
+                }
+                */
                 if (auction == null) return BadRequest();                           // HTTP 400
             
                 AuctionDetailsVm detailsVm = AuctionDetailsVm.FromAuction(auction); // TODO: Här kan en mapper användas tydligen

@@ -64,7 +64,6 @@ public class MySqlAuctionPersistence : IAuctionPersistence
         result.Sort();
         return result;
     }
-    
     public Auction GetById(int id)
     {
         Console.WriteLine($"Searching for auction with ID: {id}");
@@ -72,21 +71,33 @@ public class MySqlAuctionPersistence : IAuctionPersistence
             .Where(a => a.Id == id)
             .Include(a => a.BidDbs)
             .FirstOrDefault();   // Null if not found!
-        
+
         if (auctionDb == null)
         {
             Console.WriteLine("Auction not found in the database."); // Log if not found
             throw new DataException("Auction not found");
         }
-        
+
+        Console.WriteLine($"Auction found: {auctionDb.Title}"); // Log auction title or relevant info
+
+        // Log bid data
+        foreach (var bid in auctionDb.BidDbs)
+        {
+            Console.WriteLine($"Bid ID: {bid.Id}, Bid Date: {bid.BidDate}");
+        }
+
         Auction auction = _mapper.Map<Auction>(auctionDb);
         foreach (BidDb bidDb in auctionDb.BidDbs)
         {
+            Console.WriteLine($"Mapping BidDb - Id: {bidDb.Id}, BidDate: {bidDb.BidDate}");
             Bid bid = _mapper.Map<Bid>(bidDb);
+            Console.WriteLine($"Mapped Bid - Id: {bid.Id}, BidDate: {bid.BidDate}");
             auction.AddBid(bid);
         }
+
         return auction;
     }
+
 
     public void Save(Auction auction)
     {

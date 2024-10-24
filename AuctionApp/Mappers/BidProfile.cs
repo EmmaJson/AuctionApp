@@ -8,6 +8,7 @@ public class BidProfile : Profile
 {
     public BidProfile()
     {
-        CreateMap<BidDb, Bid>().ReverseMap();
+        CreateMap<BidDb, Bid>().ReverseMap()
+            .ForMember(dest => dest.BidDate, opt => opt.MapFrom(src => src.BidDate));
     }
 }
